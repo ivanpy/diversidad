@@ -305,15 +305,16 @@ body{
 
 .hero-scroll-hint{
   position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:.5rem;
-  font-size:.7rem;text-transform:uppercase;letter-spacing:.3em;color:var(--muted);
+  display:flex;align-items:center;color:rgba(255,255,255,.55);
 }
-.scroll-bar{ width:1px;height:50px;background:rgba(0,32,58,.15);position:relative;overflow:hidden; }
-.scroll-bar span{
-  position:absolute;top:0;left:0;width:100%;height:50%;
-  background:var(--azul);animation:scrollLine 2s ease-in-out infinite;
+.hero-scroll-hint i{
+  font-size:2rem;
+  animation:hintBounce 2.2s ease-in-out infinite;
 }
-@keyframes scrollLine{ 0%{ transform:translateY(-100%); } 100%{ transform:translateY(200%); } }
+@keyframes hintBounce{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(7px); }
+}
 
 .section{ padding:7rem 0;position:relative; }
 .section-head{ max-width:760px;margin-bottom:3.5rem; }
@@ -654,6 +655,37 @@ select.form-control-2026{ appearance:none;background-image:url("data:image/svg+x
   .si-no-group{ flex-wrap:wrap; }
   .ocupacion-item{ padding:.85rem 1rem; }
 }
+
+/* =========================================================
+   BOTONES FLOTANTES — Ir arriba + WhatsApp
+   ========================================================= */
+.btn-top,
+.btn-whatsapp{
+  position:fixed;right:1.5rem;
+  width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;
+  cursor:pointer;border:none;
+  font-size:1.2rem;text-decoration:none;
+  transition:opacity .3s,transform .3s ease,box-shadow .25s ease;
+  z-index:990;font-family:var(--font);
+}
+.btn-top{
+  bottom:1.5rem;
+  background:linear-gradient(135deg,var(--azul),var(--azul-deep));
+  color:#fff;
+  box-shadow:0 8px 24px -8px rgba(80,89,188,.55);
+  opacity:0;pointer-events:none;
+  transform:translateY(10px);
+}
+.btn-top.visible{ opacity:1;pointer-events:auto;transform:translateY(0); }
+.btn-top:hover{ transform:translateY(-3px);box-shadow:0 14px 32px -8px rgba(80,89,188,.7); }
+.btn-whatsapp{
+  bottom:5.25rem;
+  background:#25D366;color:#fff;
+  box-shadow:0 8px 24px -8px rgba(37,211,102,.55);
+  font-size:1.35rem;
+}
+.btn-whatsapp:hover{ transform:translateY(-3px) scale(1.06);box-shadow:0 14px 32px -8px rgba(37,211,102,.7);color:#fff; }
 
 /* =========================================================
    PAGINAS INTERNAS — Noticias / Articulo

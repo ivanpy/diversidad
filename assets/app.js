@@ -275,6 +275,17 @@
 
   document.querySelectorAll('.multiselect-wrap').forEach(initMultiSelect);
 
+  // ---------- Botón ir arriba ----------
+  // DOMContentLoaded porque el botón está después del <script> en el HTML
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnTop = document.getElementById('btnTop');
+    if (!btnTop) return;
+    const toggleTop = () => btnTop.classList.toggle('visible', window.scrollY > 80);
+    window.addEventListener('scroll', toggleTop, { passive: true });
+    toggleTop();
+    btnTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  });
+
   // ---------- Botón Limpiar por pestaña ----------
   document.querySelectorAll('.btn-clear-tab').forEach(btn => {
     btn.addEventListener('click', () => {
