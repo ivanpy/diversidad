@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Información, recursos y herramientas sobre violencia de género. Teléfonos de emergencia, tipos de violencia, circuito de denuncias y dependencias de atención en Chaco.">
+<meta name="author" content="Ministerio de Gobierno, Justicia, Trabajo y Derechos Humanos — Provincia del Chaco">
+<meta property="og:site_name" content="Subsecretaría de Género y Diversidad — Chaco">
+<title>Violencia de Género — Subsecretaría de Género y Diversidad · Chaco</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+/* ── Teléfonos de emergencia (fondo oscuro) ── */
+.seccion-emergencia{background:var(--noche,#00203a);padding:3rem 0;}
+.seccion-emergencia .section-title{color:#fff;}
+.seccion-emergencia .section-eyebrow{color:rgba(255,255,255,.8);}
+.seccion-emergencia .eyebrow-line{background:linear-gradient(90deg,rgba(255,255,255,.5),transparent);}
+.emerg-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:1rem;padding:1.75rem 1rem;text-align:center;transition:transform .2s,border-color .2s;}
+.emerg-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.4);}
+.emerg-card .emerg-icon{font-size:2rem;color:var(--azul,#5059bc);margin-bottom:.5rem;}
+.emerg-card .emerg-num{font-family:'Kanit',sans-serif;font-size:2.25rem;font-weight:600;color:#fff;line-height:1;display:block;}
+.emerg-card .emerg-desc{font-size:.82rem;color:rgba(255,255,255,.65);margin-top:.4rem;}
+.emerg-card a{text-decoration:none;}
+.emerg-card a:hover .emerg-num{color:var(--azul,#5059bc);}
+
+/* ── Tipos de violencia (fondo claro) ── */
+.tipo-card{background:rgba(255,255,255,.8);backdrop-filter:blur(16px);border:1px solid rgba(0,32,58,.07);border-radius:1rem;padding:1.5rem;height:100%;box-shadow:0 14px 40px -18px rgba(80,89,188,.15);}
+.tipo-card .tipo-icon{font-size:2rem;color:var(--azul,#5059bc);margin-bottom:.75rem;}
+.tipo-card h3{font-family:'Kanit',sans-serif;font-size:1.05rem;font-weight:600;color:var(--ink,#00203a);margin-bottom:.6rem;}
+.tipo-card ul{padding-left:1.1rem;margin:0;}
+.tipo-card ul li{font-size:.83rem;color:var(--ink-soft,#2d4e68);margin-bottom:.25rem;}
+
+/* ── Circuito de denuncias ── */
+.circuito-section{padding:4rem 0;}
+.pasos-row{display:flex;flex-wrap:wrap;gap:0;align-items:flex-start;}
+.paso-item{flex:1 1 0;min-width:160px;position:relative;padding:1.5rem 1rem;text-align:center;}
+.paso-item:not(:last-child)::after{content:'\F285';font-family:'bootstrap-icons';position:absolute;right:-12px;top:50%;transform:translateY(-50%);font-size:1.25rem;color:var(--azul,#5059bc);z-index:2;}
+@media(max-width:767px){
+  .pasos-row{flex-direction:column;}
+  .paso-item:not(:last-child)::after{content:'\F282';right:50%;top:auto;bottom:-14px;transform:translateX(50%);}
+  .paso-item{padding-bottom:2rem;}
+}
+.paso-num{font-family:'Kanit',sans-serif;font-size:2.5rem;font-weight:600;color:var(--azul,#5059bc);line-height:1;display:block;}
+.paso-title{font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink,#00203a);margin:.4rem 0;}
+.paso-desc{font-size:.8rem;color:var(--ink-soft,#2d4e68);}
+
+/* ── Dependencias (fondo claro) ── */
+.dep-card{background:rgba(255,255,255,.8);backdrop-filter:blur(16px);border:1px solid rgba(0,32,58,.07);border-radius:1rem;padding:1.25rem;height:100%;display:flex;flex-direction:column;gap:.4rem;box-shadow:0 14px 40px -18px rgba(80,89,188,.12);}
+.dep-card h3{font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink,#00203a);margin:0 0 .3rem;}
+.dep-card p{font-size:.82rem;color:var(--ink-soft,#2d4e68);margin:0;display:flex;align-items:flex-start;gap:.35rem;}
+.dep-card p i{margin-top:2px;color:var(--azul,#5059bc);flex-shrink:0;}
+.dep-card .dep-map{margin-top:auto;padding-top:.75rem;}
+.dep-col.is-hidden{display:none;}
+
+/* ── Violentómetro ── */
+.violentometro-section{padding:4rem 0;}
+.zona-block{border-radius:1rem;padding:1.75rem;margin-bottom:1.5rem;}
+.zona-verde{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);}
+.zona-amarillo{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.4);}
+.zona-rojo{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);}
+.zona-title{font-family:'Kanit',sans-serif;font-size:1.15rem;font-weight:600;margin-bottom:.25rem;}
+.zona-verde .zona-title{color:#16a34a;}
+.zona-amarillo .zona-title{color:#b45309;}
+.zona-rojo .zona-title{color:#dc2626;}
+.zona-sub{font-size:.82rem;color:var(--ink-soft,#2d4e68);margin-bottom:1rem;}
+.vm-grid{display:flex;flex-wrap:wrap;gap:.5rem;}
+.vm-item{position:relative;}
+.vm-btn{background:rgba(0,32,58,.05);border:1px solid rgba(0,32,58,.14);border-radius:.5rem;padding:.4rem .85rem;font-size:.82rem;color:var(--ink-soft,#2d4e68);cursor:pointer;transition:background .2s,border-color .2s;text-align:left;}
+.vm-btn:hover,.vm-btn.open{background:rgba(0,32,58,.1);border-color:rgba(0,32,58,.28);color:var(--ink,#00203a);}
+.vm-msg{display:none;background:rgba(0,32,58,.9);border-radius:.5rem;padding:.6rem .85rem;font-size:.8rem;color:rgba(255,255,255,.92);margin-top:.3rem;max-width:300px;}
+.vm-msg.show{display:block;}
+
+/* ── Tips rápidos ── */
+.tip-card{background:rgba(255,255,255,.8);backdrop-filter:blur(16px);border:1px solid rgba(0,32,58,.07);border-radius:1rem;padding:1.25rem 1rem;text-align:center;height:100%;box-shadow:0 14px 40px -18px rgba(80,89,188,.12);}
+.tip-card .tip-icon{font-size:1.75rem;color:var(--azul,#5059bc);margin-bottom:.6rem;}
+.tip-card p{font-size:.85rem;color:var(--ink-soft,#2d4e68);margin:0;}
+
+/* ── Atención psicológica CTA ── */
+.atencion-cta{padding:4rem 0;}
+.atencion-inner{background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(168,85,247,.18));border:1px solid rgba(99,102,241,.35);border-radius:1.5rem;padding:3rem 2rem;text-align:center;}
+.atencion-inner h2{font-family:'Kanit',sans-serif;font-size:2rem;font-weight:600;color:var(--ink,#00203a);margin-bottom:.5rem;}
+.atencion-inner .atencion-sub{font-size:1rem;color:var(--ink-soft,#2d4e68);margin-bottom:1.5rem;}
+.atencion-inner .atencion-info{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin-bottom:2rem;}
+.atencion-info-item{display:flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--ink-soft,#2d4e68);}
+.atencion-info-item i{color:var(--azul,#5059bc);}
+
+/* ── Subtítulo del page-header ── */
+.page-header-sub{font-size:1rem;color:rgba(255,255,255,.82);margin-top:.5rem;max-width:560px;}
+</style>
+</head>
+<body>
+<div class="bg-mesh" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div></div>
+
+<!-- ============ NAV ============ -->
+<nav class="navbar navbar-expand-lg fixed-top nav-glass">
+  <div class="container-fluid px-3 px-lg-5">
+    <a class="navbar-brand" href="index.html"><img src="img/CHAGO-MIN-SUB.png" alt="Gobierno del Chaco · Ministerio de Gobierno, Justicia, Trabajo y DDHH · Subsecretaría de Género y Diversidad" class="navbar-logo"></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><i class="bi bi-list fs-3"></i></button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item"><a class="nav-link nav-pill" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link nav-pill" href="noticias.html">Noticias</a></li>
+        <li class="nav-item"><a class="nav-link nav-pill" href="index.html#nosotrxs">Nosotros/as</a></li>
+        <li class="nav-item"><a class="nav-link nav-pill active-page" href="violencia.html">Violencia de Género</a></li>
+        <li class="nav-item"><a class="nav-link nav-pill" href="index.html#leyes">Leyes &amp; Decretos</a></li>
+        <li class="nav-item ms-lg-2"><a class="nav-cta" href="index.html#registrate"><span>Registrate</span><i class="bi bi-arrow-right"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="page-header">
+  <img class="page-header-bg" src="img/encabezado.jpg" alt="" aria-hidden="true">
+  <div class="container page-header-inner">
+    <span class="section-eyebrow light"><span class="eyebrow-line"></span>Información y recursos</span>
+    <h1 class="page-header-title">Violencia de Género</h1>
+    <p class="page-header-sub">Información, recursos y herramientas para identificar, prevenir y actuar.</p>
+  </div>
+</header>
+
+<!-- ============ TELÉFONOS DE EMERGENCIA ============ -->
+<section class="seccion-emergencia" id="telefonos" data-reveal>
+  <div class="container">
+    <div class="text-center mb-4">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Emergencia</span>
+      <h2 class="section-title mt-2">Teléfonos de Emergencia</h2>
+    </div>
+    <div class="row g-3 justify-content-center">
+      <div class="col-6 col-md-3">
+        <div class="emerg-card">
+          <a href="tel:144">
+            <div class="emerg-icon"><i class="bi bi-telephone-fill"></i></div>
+            <span class="emerg-num">144</span>
+            <p class="emerg-desc">Atención nacional 24 hs.</p>
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="emerg-card">
+          <a href="tel:911">
+            <div class="emerg-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <span class="emerg-num">911</span>
+            <p class="emerg-desc">Emergencias</p>
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="emerg-card">
+          <a href="tel:137">
+            <div class="emerg-icon"><i class="bi bi-telephone-fill"></i></div>
+            <span class="emerg-num">137</span>
+            <p class="emerg-desc">Violencia familiar y de género</p>
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="emerg-card">
+          <a href="tel:3624747247">
+            <div class="emerg-icon"><i class="bi bi-telephone-fill"></i></div>
+            <span class="emerg-num">3624-747247</span>
+            <p class="emerg-desc">Atención CAVV — Chaco</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIPOS DE VIOLENCIA ============ -->
+<section class="section" id="tipos-violencia" data-reveal>
+  <div class="container">
+    <div class="section-lead text-center mb-5">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Ley 26.485</span>
+      <h2 class="section-title">Tipos de Violencia</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="0">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-brain"></i></div>
+          <h3>Psicológica</h3>
+          <ul>
+            <li>Insultos y humillaciones</li>
+            <li>Manipulación emocional</li>
+            <li>Aislamiento del entorno</li>
+            <li>Control emocional</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="100">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-shield-x"></i></div>
+          <h3>Física</h3>
+          <ul>
+            <li>Golpes y empujones</li>
+            <li>Encierro o confinamiento</li>
+            <li>Negación de atención médica</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="200">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-slash-circle"></i></div>
+          <h3>Sexual</h3>
+          <ul>
+            <li>Abuso y acoso sexual</li>
+            <li>Presión sexual</li>
+            <li>Control reproductivo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="0">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-cash-coin"></i></div>
+          <h3>Económica y Patrimonial</h3>
+          <ul>
+            <li>Control del dinero</li>
+            <li>Impedir trabajar o estudiar</li>
+            <li>Destrucción de bienes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="100">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-chat-square-text"></i></div>
+          <h3>Simbólica</h3>
+          <ul>
+            <li>Estereotipos de género</li>
+            <li>Lenguaje discriminatorio</li>
+            <li>Mensajes y publicidad sexistas</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-reveal data-reveal-delay="200">
+        <div class="tipo-card">
+          <div class="tipo-icon"><i class="bi bi-building"></i></div>
+          <h3>Política</h3>
+          <ul>
+            <li>Amenazas e intimidación</li>
+            <li>Exclusión de espacios políticos</li>
+            <li>Hostigamiento político</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIRCUITO DE DENUNCIAS ============ -->
+<section class="circuito-section" id="circuito" data-reveal>
+  <div class="container">
+    <div class="section-lead text-center mb-5">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Paso a paso</span>
+      <h2 class="section-title">¿Cómo denunciar?</h2>
+    </div>
+    <div class="pasos-row">
+      <div class="paso-item">
+        <span class="paso-num">01</span>
+        <p class="paso-title">Llamar al 137</p>
+        <p class="paso-desc">Primera atención telefónica las 24 hs.</p>
+      </div>
+      <div class="paso-item">
+        <span class="paso-num">02</span>
+        <p class="paso-title">Atención médica</p>
+        <p class="paso-desc">Concurrir a un centro de salud para registro y atención.</p>
+      </div>
+      <div class="paso-item">
+        <span class="paso-num">03</span>
+        <p class="paso-title">Realizar la denuncia</p>
+        <p class="paso-desc">En comisarías, fiscalías o juzgados.</p>
+      </div>
+      <div class="paso-item">
+        <span class="paso-num">04</span>
+        <p class="paso-title">Medidas de protección</p>
+        <p class="paso-desc">Botón antipánico, exclusión del agresor, prohibición de acercamiento.</p>
+      </div>
+      <div class="paso-item">
+        <span class="paso-num">05</span>
+        <p class="paso-title">Acompañamiento</p>
+        <p class="paso-desc">Asistencia psicológica, legal y social interdisciplinaria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECURSOS Y DEPENDENCIAS ============ -->
+<section class="section" id="dependencias" data-reveal>
+  <div class="container">
+    <div class="section-lead text-center mb-4">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Dónde acudir</span>
+      <h2 class="section-title">Recursos y Dependencias</h2>
+    </div>
+    <div class="news-filters mb-4" id="depFilters">
+      <button class="chip active" data-depfilter="all">Todas</button>
+      <button class="chip" data-depfilter="comisarias">Comisarías</button>
+      <button class="chip" data-depfilter="juzgados">Juzgados</button>
+      <button class="chip" data-depfilter="juzgados-paz">Juzgados de Paz</button>
+      <button class="chip" data-depfilter="fiscalias">Fiscalías</button>
+      <button class="chip" data-depfilter="organismos">Organismos Provinciales</button>
+      <button class="chip" data-depfilter="centros">Centros de Atención</button>
+    </div>
+    <div class="row g-3" id="depGrid">
+
+      <!-- Comisarías -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="comisarias">
+        <div class="dep-card">
+          <h3>Comisaría de la Mujer</h3>
+          <p><i class="bi bi-geo-alt"></i> Alvear 126, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-761832</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Alvear+126+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+      <!-- Juzgados -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Mesa Receptora — Juzgados de Niñez</h3>
+          <p><i class="bi bi-geo-alt"></i> French 166, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-453930</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=French+166+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 1</h3>
+          <p><i class="bi bi-geo-alt"></i> French 166, Piso 3</p>
+          <p><i class="bi bi-telephone"></i> 3624-453898</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=French+166+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 2</h3>
+          <p><i class="bi bi-geo-alt"></i> French 166, Piso 2</p>
+          <p><i class="bi bi-telephone"></i> 3624-453897</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=French+166+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 3</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. Las Heras 320, Piso 2</p>
+          <p><i class="bi bi-telephone"></i> 3624-555954</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Av+Las+Heras+320+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 4</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. Las Heras 320, Piso 1</p>
+          <p><i class="bi bi-telephone"></i> 3624-283534</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Av+Las+Heras+320+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 5</h3>
+          <p><i class="bi bi-geo-alt"></i> French 166, Piso 1</p>
+          <p><i class="bi bi-telephone"></i> 3624-453805</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=French+166+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 6</h3>
+          <p><i class="bi bi-geo-alt"></i> French 166, Piso 1</p>
+          <p><i class="bi bi-telephone"></i> 3624-453806</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=French+166+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Niñez Nº 7</h3>
+          <p><i class="bi bi-geo-alt"></i> López y Planes 157, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> Sin datos</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Lopez+y+Planes+157+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Faltas — Resistencia</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. Italia 55, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-424014</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Av+Italia+55+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados">
+        <div class="dep-card">
+          <h3>Juzgado de Faltas — Barranqueras</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. 9 de Julio 5330, Barranqueras</p>
+          <p><i class="bi bi-telephone"></i> 3624-263884</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Av+9+de+Julio+5330+Barranqueras+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+      <!-- Juzgados de Paz -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados-paz">
+        <div class="dep-card">
+          <h3>Juzgado de Paz Nº 1</h3>
+          <p><i class="bi bi-geo-alt"></i> Brown 249, Piso 1</p>
+          <p><i class="bi bi-telephone"></i> 3624-428446</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Brown+249+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="juzgados-paz">
+        <div class="dep-card">
+          <h3>Juzgado de Paz Nº 2</h3>
+          <p><i class="bi bi-geo-alt"></i> Brown 249, Piso 2</p>
+          <p><i class="bi bi-telephone"></i> 3624-425210</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Brown+249+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+      <!-- Fiscalías -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="fiscalias">
+        <div class="dep-card">
+          <h3>Equipo Fiscal Nº 1</h3>
+          <p><i class="bi bi-geo-alt"></i> 9 de Julio 236, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-453029</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=9+de+Julio+236+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="fiscalias">
+        <div class="dep-card">
+          <h3>Equipo Fiscal Nº 2</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. 9 de Julio 236, PA</p>
+          <p><i class="bi bi-telephone"></i> 3624-453060</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=9+de+Julio+236+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="fiscalias">
+        <div class="dep-card">
+          <h3>Equipo Fiscal Nº 3</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. 9 de Julio 236, PA</p>
+          <p><i class="bi bi-telephone"></i> 3624-453021</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=9+de+Julio+236+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="fiscalias">
+        <div class="dep-card">
+          <h3>Equipo Fiscal Nº 4</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. 9 de Julio 236, PA</p>
+          <p><i class="bi bi-telephone"></i> Sin datos</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=9+de+Julio+236+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="fiscalias">
+        <div class="dep-card">
+          <h3>Equipo Fiscal Nº 5</h3>
+          <p><i class="bi bi-geo-alt"></i> Av. 9 de Julio 236, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-453023</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=9+de+Julio+236+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+      <!-- Organismos Provinciales -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="organismos">
+        <div class="dep-card">
+          <h3>Subsecretaría de Género y Diversidad</h3>
+          <p><i class="bi bi-geo-alt"></i> Monteagudo 484, Resistencia</p>
+          <p><i class="bi bi-envelope"></i> subgeneroydiversidad@chaco.gob.ar</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Monteagudo+484+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+      <!-- Centros de Atención -->
+      <div class="col-md-6 col-lg-4 dep-col" data-cat="centros">
+        <div class="dep-card">
+          <h3>CAVV — Centro de Atención a Víctimas</h3>
+          <p><i class="bi bi-geo-alt"></i> Monteagudo 484, Resistencia</p>
+          <p><i class="bi bi-telephone"></i> 3624-747247</p>
+          <div class="dep-map"><a href="https://maps.google.com/?q=Monteagudo+484+Resistencia+Chaco" target="_blank" rel="noopener" class="btn-ghost-2026">Ver en mapa</a></div>
+        </div>
+      </div>
+
+    </div><!-- /depGrid -->
+  </div>
+</section>
+
+<!-- ============ VIOLENTÓMETRO ============ -->
+<section class="violentometro-section" id="violentometro" data-reveal>
+  <div class="container">
+    <div class="section-lead text-center mb-5">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Identificá situaciones de riesgo</span>
+      <h2 class="section-title">Violentómetro</h2>
+      <p class="section-lead">Identificá conductas violentas y pedí ayuda a tiempo. Hacé clic en cada conducta para ver más información.</p>
+    </div>
+
+    <!-- Zona Verde -->
+    <div class="zona-block zona-verde">
+      <p class="zona-title"><i class="bi bi-circle-fill me-2" style="color:#22c55e;font-size:.65rem;vertical-align:middle;"></i>Zona de Cuidado</p>
+      <p class="zona-sub">Señales de alerta temprana. Reconocerlas es el primer paso.</p>
+      <div class="vm-grid">
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Bromas hirientes</button><div class="vm-msg">Las bromas hirientes no son inofensivas. Poné límites desde el inicio.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Chantajear</button><div class="vm-msg">El chantaje manipula tus emociones. Es un signo de control.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Mentir o engañar</button><div class="vm-msg">Mentir o engañar destruye la confianza en una relación.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Ignorar / Ley del hielo</button><div class="vm-msg">Ignorar o aplicar la ley del hielo es violencia psicológica.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Celar</button><div class="vm-msg">Los celos no son amor. Son una forma de control.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Acechar o stalkear redes sociales</button><div class="vm-msg">Controlar redes sociales sin permiso es acoso digital.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Culpabilizar</button><div class="vm-msg">Hacerte sentir culpable constantemente es manipulación emocional.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Descalificar</button><div class="vm-msg">Descalificar lastima la autoestima. No lo normalices.</div></div>
+      </div>
+    </div>
+
+    <!-- Zona Amarilla -->
+    <div class="zona-block zona-amarillo">
+      <p class="zona-title"><i class="bi bi-circle-fill me-2" style="color:#f59e0b;font-size:.65rem;vertical-align:middle;"></i>Zona de Alerta</p>
+      <p class="zona-sub">Situaciones que requieren atención urgente. No esperes que escale.</p>
+      <div class="vm-grid">
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Ridiculizar u ofender</button><div class="vm-msg">El ridículo constante erosiona tu confianza.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Humillar en público</button><div class="vm-msg">Las humillaciones públicas son violencia psicológica.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Intimidar o amenazar</button><div class="vm-msg">Las amenazas buscan intimidarte. No las ignores.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Controlar o prohibir</button><div class="vm-msg">Controlar amistades, dinero o redes sociales es violencia.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Destruir artículos personales</button><div class="vm-msg">Romper tus cosas es una forma de intimidación.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Manosear</button><div class="vm-msg">Tocar sin consentimiento es violencia sexual.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Caricias agresivas</button><div class="vm-msg">Las caricias agresivas también son maltrato físico.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Golpear jugando</button><div class="vm-msg">No es un juego. Golpear es violencia física.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Pellizcar o arañar</button><div class="vm-msg">Pellizcar o arañar no son expresiones de afecto.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Empujar o jalonear</button><div class="vm-msg">Empujar o jalonear es violencia física.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Cachetear</button><div class="vm-msg">El cachetazo no es normal. Es violencia.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Patear</button><div class="vm-msg">Las patadas representan una forma grave de maltrato.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Encerrar o aislar</button><div class="vm-msg">Aislar o encerrar es violencia psicológica grave.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Sextorsión</button><div class="vm-msg">La sextorsión es un delito. Denuncialo.</div></div>
+      </div>
+    </div>
+
+    <!-- Zona Roja -->
+    <div class="zona-block zona-rojo">
+      <p class="zona-title"><i class="bi bi-circle-fill me-2" style="color:#ef4444;font-size:.65rem;vertical-align:middle;"></i>Zona Urgente</p>
+      <p class="zona-sub">Peligro inmediato. Llamá al 137 o al 911 ahora.</p>
+      <div class="vm-grid">
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Amenazar con objetos o armas</button><div class="vm-msg">Amenazar con armas pone tu vida en riesgo.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Difundir contenido íntimo sin consentimiento</button><div class="vm-msg">Difundir contenido íntimo sin permiso es delito.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Amenazar de muerte</button><div class="vm-msg">Las amenazas de muerte deben denunciarse inmediatamente.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Forzar una relación sexual</button><div class="vm-msg">Forzar relaciones sexuales es violación.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Abuso sexual</button><div class="vm-msg">El abuso sexual es un delito grave.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Violar</button><div class="vm-msg">La violación requiere asistencia y denuncia inmediata.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Mutilar</button><div class="vm-msg">Mutilar es un crimen. Buscá ayuda urgente.</div></div>
+        <div class="vm-item"><button class="vm-btn" onclick="vmToggle(this)">Asesinar / Femicidio</button><div class="vm-msg">El femicidio es la expresión más extrema de la violencia.</div></div>
+      </div>
+    </div>
+
+    <!-- CTA emergencia -->
+    <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+      <a href="tel:137" class="btn-primary-2026">Llamar al 137</a>
+      <a href="tel:911" class="btn-ghost-2026">Llamar al 911</a>
+      <a href="#dependencias" class="btn-ghost-2026">Ver recursos y dependencias</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ TIPS RÁPIDOS ============ -->
+<section class="section" id="tips" data-reveal>
+  <div class="container">
+    <div class="section-lead text-center mb-5">
+      <span class="section-eyebrow"><span class="eyebrow-line"></span>Prevención</span>
+      <h2 class="section-title">Consejos rápidos</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="0">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-heart-pulse"></i></div>
+          <p>Confiá en tu intuición.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="80">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-people-fill"></i></div>
+          <p>No te aísles.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="160">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-chat-dots"></i></div>
+          <p>Hablá con alguien de confianza.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="240">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-telephone-fill"></i></div>
+          <p>Tené a mano números de emergencia.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="320">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-folder2-open"></i></div>
+          <p>Guardá documentos importantes.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2" data-reveal data-reveal-delay="400">
+        <div class="tip-card">
+          <div class="tip-icon"><i class="bi bi-envelope-at"></i></div>
+          <p>Si no podés hablar, enviá un mensaje o señal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ATENCIÓN PSICOLÓGICA CTA ============ -->
+<section class="atencion-cta" id="atencion" data-reveal>
+  <div class="container">
+    <div class="atencion-inner">
+      <h2>Atención Psicológica Gratuita</h2>
+      <p class="atencion-sub">Espacio seguro de escucha y acompañamiento para personas de la diversidad.</p>
+      <div class="atencion-info">
+        <div class="atencion-info-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>Monteagudo 484, Resistencia · Lun a Vie 07:00–12:30 hs.</span>
+        </div>
+        <div class="atencion-info-item">
+          <i class="bi bi-telephone-fill"></i>
+          <span>3624-747247</span>
+        </div>
+      </div>
+      <a href="tel:3624747247" class="btn-primary-2026 light">Solicitar turno</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4"><img src="img/CHAGO-MIN-SUB-foot.png" alt="Gobierno del Chaco · Ministerio de Gobierno, Justicia, Trabajo y DDHH · Subsecretaría de Género y Diversidad" class="footer-logo"><p class="footer-copy">Subsecretaría de Género y Diversidad. Ministerio de Gobierno, Justicia, Trabajo y Derechos Humanos. Provincia del Chaco. Desarrollamos políticas públicas de género, diversidad y prevención de violencias.</p></div>
+      <div class="col-md-4 col-lg-2"><h6 class="footer-h">Teléfono</h6><a href="tel:3624747247" class="footer-link big-link"><i class="bi bi-telephone-fill"></i> 3624-747247</a><a href="tel:3624810858" class="footer-link big-link"><i class="bi bi-telephone-fill"></i> 3624-810858</a></div>
+      <div class="col-md-4 col-lg-3"><h6 class="footer-h">Email</h6><a href="mailto:subgeneroydiversidad@chaco.gob.ar" class="footer-link"><i class="bi bi-envelope-fill"></i> subgeneroydiversidad@chaco.gob.ar</a></div>
+      <div class="col-md-4 col-lg-3"><h6 class="footer-h">Dirección</h6><p class="footer-link"><i class="bi bi-geo-alt-fill"></i> Monteagudo 484<br>Resistencia, Chaco</p><h6 class="footer-h mt-4">Instagram</h6><a href="https://instagram.com/sub_generoydiversidad" target="_blank" rel="noopener" class="footer-link"><i class="bi bi-instagram"></i> @sub_generoydiversidad</a><h6 class="footer-h mt-3">Nuestras redes</h6><div class="socials"><a href="https://instagram.com/sub_generoydiversidad" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a></div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 — Año del 100° Aniversario de la Ley de Derechos Civiles de la Mujer (Ley 11.357) · Subsecretaría de Género y Diversidad — Provincia del Chaco</span><span>Desarrollado por <a href="https://ecom.com.ar" target="_blank" rel="noopener"><img src="img/ecomsa.png" alt="Ecomsa" style="height:1em;width:auto;vertical-align:middle;"></a></span></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/app.js"></script>
+
+<!-- Filtro de dependencias -->
+<script>
+(function(){
+  var chips=document.querySelectorAll('#depFilters .chip[data-depfilter]');
+  var cols=document.querySelectorAll('#depGrid .dep-col');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      chips.forEach(function(c){c.classList.remove('active');});
+      chip.classList.add('active');
+      var f=chip.dataset.depfilter;
+      cols.forEach(function(col){
+        col.classList.toggle('is-hidden', f!=='all' && col.dataset.cat!==f);
+      });
+    });
+  });
+})();
+</script>
+
+<!-- Violentómetro toggle -->
+<script>
+function vmToggle(btn){
+  var msg=btn.nextElementSibling;
+  var open=msg.classList.contains('show');
+  document.querySelectorAll('.vm-msg.show').forEach(function(m){m.classList.remove('show');});
+  document.querySelectorAll('.vm-btn.open').forEach(function(b){b.classList.remove('open');});
+  if(!open){msg.classList.add('show');btn.classList.add('open');}
+}
+</script>
+
+<button class="btn-top" id="btnTop" aria-label="Ir arriba" title="Ir arriba"><i class="bi bi-chevron-up"></i></button>
+<a class="btn-whatsapp" href="https://wa.me/543624747247" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" title="Contactar por WhatsApp"><i class="bi bi-whatsapp"></i></a>
+</body>
+</html>
